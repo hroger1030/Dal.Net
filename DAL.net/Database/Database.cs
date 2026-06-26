@@ -130,7 +130,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -174,7 +174,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -221,7 +221,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -268,7 +268,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -310,7 +310,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -429,7 +429,7 @@ namespace DAL.Net
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters);
+                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters, true);
                     Console.WriteLine(sqlDebugString);
                 }
 

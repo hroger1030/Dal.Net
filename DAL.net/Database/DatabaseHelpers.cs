@@ -76,7 +76,7 @@ namespace DAL.Net
         /// <summary>
         /// Method creates sql debugging strings with parameterized argument lists
         /// </summary>
-        public static string GenerateSqlDebugString(string sqlQuery, IList<SqlParameter> parameterList)
+        public static string GenerateSqlDebugString(string sqlQuery, IList<SqlParameter> parameterList, bool isStoredProc)
         {
             if (string.IsNullOrWhiteSpace(sqlQuery))
                 throw new ArgumentNullException(nameof(sqlQuery));
@@ -162,6 +162,9 @@ namespace DAL.Net
                     }
                 }
             }
+
+            if (isStoredProc) 
+                sqlQuery = $"EXEC {sqlQuery}";
 
             return $"{sb.ToString()} {sqlQuery} {GenericListToStringList(valueList, null, null)}";
         }
@@ -569,9 +572,9 @@ namespace DAL.Net
         /// <summary>
         /// Method creates sql debugging strings with parameterized argument lists
         /// </summary>
-        public static async Task<string> GenerateSqlDebugStringAsync(string sqlQuery, IList<SqlParameter> parameterList)
+        public static async Task<string> GenerateSqlDebugStringAsync(string sqlQuery, IList<SqlParameter> parameterList, bool isStoredProc = false)
         {
-            return await Task.Run(() => GenerateSqlDebugString(sqlQuery, parameterList));
+            return await Task.Run(() => GenerateSqlDebugString(sqlQuery, parameterList, isStoredProc));
         }
 
         /// <summary>
@@ -605,7 +608,7 @@ namespace DAL.Net
         }
 
         /// <summary>
-        /// Generates a SqlParameter object from a generic poco list. This allows you to pass in a list of N 
+        /// Generates a SqlParameter object from a generic POCO list. This allows you to pass in a list of N 
         /// objects into a stored procedure as a single argument. The sqlTypeName type needs to exist in the db
         /// however, and be of the correct type.
         /// 
