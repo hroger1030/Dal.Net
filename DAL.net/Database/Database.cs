@@ -425,11 +425,11 @@ namespace DAL.Net
                 using var cmd = new SqlCommand(sqlQuery, conn) { CommandType = (storedProcedure) ? CommandType.StoredProcedure : CommandType.Text, };
                 using var adapter = new SqlDataAdapter() { SelectCommand = cmd, };
 
-                await ReadInParametersAsync(parameters, cmd);
+                ReadInParameters(parameters, cmd);
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters, true);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
@@ -437,7 +437,7 @@ namespace DAL.Net
 
                 await conn.OpenAsync();
                 adapter.Fill(dt);
-                await PersistOutputParametersAsync(parameters, cmd);
+                PersistOutputParameters(parameters, cmd);
                 await conn.CloseAsync();
 
                 return dt;
@@ -469,18 +469,18 @@ namespace DAL.Net
                 using var conn = new SqlConnection(connection);
                 using var cmd = new SqlCommand(sqlQuery, conn) { CommandType = (storedProcedure) ? CommandType.StoredProcedure : CommandType.Text, };
 
-                await ReadInParametersAsync(parameters, cmd);
+                ReadInParameters(parameters, cmd);
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
                 await conn.OpenAsync();
                 using SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
-                var output = await ParseDatareaderResultAsync<T>(dataReader, _ThrowUnmappedFieldsError);
-                await PersistOutputParametersAsync(parameters, cmd);
+                var output = ParseDataReaderResult<T>(dataReader, _ThrowUnmappedFieldsError);
+                PersistOutputParameters(parameters, cmd);
                 await dataReader.CloseAsync();
                 await conn.CloseAsync();
 
@@ -516,18 +516,18 @@ namespace DAL.Net
                 using var conn = new SqlConnection(connection);
                 using var cmd = new SqlCommand(sqlQuery, conn) { CommandType = (storedProcedure) ? CommandType.StoredProcedure : CommandType.Text, };
 
-                await ReadInParametersAsync(parameters, cmd);
+                ReadInParameters(parameters, cmd);
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
                 await conn.OpenAsync();
                 using SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                 var output = await processor.Invoke(dataReader);
-                await PersistOutputParametersAsync(parameters, cmd);
+                PersistOutputParameters(parameters, cmd);
                 await dataReader.CloseAsync();
                 await conn.CloseAsync();
 
@@ -563,17 +563,17 @@ namespace DAL.Net
                 using var conn = new SqlConnection(connection);
                 using var cmd = new SqlCommand(sqlQuery, conn) { CommandType = (storedProcedure) ? CommandType.StoredProcedure : CommandType.Text, };
 
-                await ReadInParametersAsync(parameters, cmd);
+                ReadInParameters(parameters, cmd);
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
                 await conn.OpenAsync();
                 int results = await cmd.ExecuteNonQueryAsync();
-                await PersistOutputParametersAsync(parameters, cmd);
+                PersistOutputParameters(parameters, cmd);
                 await conn.CloseAsync();
 
                 return results;
@@ -605,17 +605,17 @@ namespace DAL.Net
                 using var conn = new SqlConnection(connection);
                 using var cmd = new SqlCommand(sqlQuery, conn) { CommandType = (storedProcedure) ? CommandType.StoredProcedure : CommandType.Text, };
 
-                await ReadInParametersAsync(parameters, cmd);
+                ReadInParameters(parameters, cmd);
 
                 if (_Debug)
                 {
-                    var sqlDebugString = await GenerateSqlDebugStringAsync(sqlQuery, parameters);
+                    var sqlDebugString = GenerateSqlDebugString(sqlQuery, parameters, storedProcedure);
                     Console.WriteLine(sqlDebugString);
                 }
 
                 await conn.OpenAsync();
                 object buffer = await cmd.ExecuteScalarAsync();
-                await PersistOutputParametersAsync(parameters, cmd);
+                PersistOutputParameters(parameters, cmd);
                 await conn.CloseAsync();
 
                 if (buffer == null)

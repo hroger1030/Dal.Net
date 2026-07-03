@@ -163,7 +163,7 @@ namespace DAL.Net
                 }
             }
 
-            if (isStoredProc) 
+            if (isStoredProc)
                 sqlQuery = $"EXEC {sqlQuery}";
 
             return $"{sb.ToString()} {sqlQuery} {GenericListToStringList(valueList, null, null)}";
@@ -558,77 +558,6 @@ namespace DAL.Net
             };
 
             return sqlParameter;
-        }
-
-        #endregion
-
-        #region Async Methods
-
-        public static async Task<string> GenericListToStringListAsync<T>(IEnumerable<T> list, string quoteCharacter = null, string quoteEscapeCharacter = null)
-        {
-            return await Task.Run(() => GenericListToStringList(list, quoteCharacter, quoteEscapeCharacter));
-        }
-
-        /// <summary>
-        /// Method creates sql debugging strings with parameterized argument lists
-        /// </summary>
-        public static async Task<string> GenerateSqlDebugStringAsync(string sqlQuery, IList<SqlParameter> parameterList, bool isStoredProc = false)
-        {
-            return await Task.Run(() => GenerateSqlDebugString(sqlQuery, parameterList, isStoredProc));
-        }
-
-        /// <summary>
-        /// This method performs automatic mapping between a data reader and a POCO object, mapping any values that 
-        /// have properties names that match column names. It can be configured to throw exceptions if there isn't a 1:1 mapping.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<T>> ParseDatareaderResultAsync<T>(SqlDataReader reader, bool throwUnmappedFieldsError) where T : class, new()
-        {
-            return await Task.Run(() => ParseDataReaderResult<T>(reader, throwUnmappedFieldsError));
-        }
-
-        /// <summary>
-        /// Reads in a collection of SqlParameters and adds them to a SqlCommand object
-        /// </summary>
-        /// <param name="parameters">List of sql parameters supplied to method</param>
-        /// <param name="cmd">command object for query</param>
-        public static async Task ReadInParametersAsync(IList<SqlParameter> parameters, SqlCommand cmd)
-        {
-            await Task.Run(() => ReadInParameters(parameters, cmd));
-        }
-
-        /// <summary>
-        /// Helper method to write sql output parameters back to parameter collection.
-        /// </summary>
-        /// <param name="parameters">List of sql parameters supplied to method</param>
-        /// <param name="cmd">command object to pull output from</param>
-        public static async Task PersistOutputParametersAsync(IList<SqlParameter> parameters, SqlCommand cmd)
-        {
-            await Task.Run(() => PersistOutputParameters(parameters, cmd));
-        }
-
-        /// <summary>
-        /// Generates a SqlParameter object from a generic POCO list. This allows you to pass in a list of N 
-        /// objects into a stored procedure as a single argument. The sqlTypeName type needs to exist in the db
-        /// however, and be of the correct type.
-        /// 
-        /// Sample: ConvertObjectCollectionToParameter("@Foo", "dbo.SomeUserType", a_generic_object_collection);
-        /// </summary>
-        public static async Task<SqlParameter> ConvertPocoCollectionToParameterAsync<T>(string parameterName, string sqlTypeName, IEnumerable<T> input) where T : class, new()
-        {
-            return await Task.Run(() => ConvertPocoCollectionToParameter<T>(parameterName, sqlTypeName, input));
-        }
-
-        /// <summary>
-        /// Generates a SqlParameter object from a generic object list. This allows you to pass in a list of N 
-        /// objects into a stored procedure as a single argument. The sqlTypeName type needs to exist in the db
-        /// however, and be of the correct type.
-        /// 
-        /// Sample: ConvertObjectCollectionToParameter("@Foo", "dbo.SomeUserType", a_generic_object_collection, "value");
-        /// </summary>
-        public static async Task<SqlParameter> ConvertObjectCollectionToParameterAsync<T>(string parameterName, string sqlTypeName, IEnumerable<T> input, string columnName)
-        {
-            return await Task.Run(() => ConvertObjectCollectionToParameter<T>(parameterName, sqlTypeName, input, columnName));
         }
 
         #endregion
