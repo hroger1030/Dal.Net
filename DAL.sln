@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.Framework", "DAL.Framework\DAL.Framework.csproj", "{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Standard", "DAL.Standard\DAL.Standard.csproj", "{5E1D0269-CFB2-4A95-902B-2A81F2593A11}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Core", "DAL.Core\DAL.Core.csproj", "{29286942-3A3B-4FD2-A3F0-15C8125A59A4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workbench", "Workbench\Workbench.csproj", "{24D00C1C-6EDC-45C3-BA79-9AF723FB1DEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Net", "DAL.Net\DAL.Net.csproj", "{D5EB940E-2950-4699-BB75-DF452FE9ABCE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{719C35CB-52C8-4E6C-9240-08DF1371088B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		CLAUDE.md = CLAUDE.md
+		ViewObjectData.sql = ViewObjectData.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2EFDCD8-DD5A-4416-8B44-0F780431E98E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E1D0269-CFB2-4A95-902B-2A81F2593A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E1D0269-CFB2-4A95-902B-2A81F2593A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E1D0269-CFB2-4A95-902B-2A81F2593A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E1D0269-CFB2-4A95-902B-2A81F2593A11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29286942-3A3B-4FD2-A3F0-15C8125A59A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29286942-3A3B-4FD2-A3F0-15C8125A59A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29286942-3A3B-4FD2-A3F0-15C8125A59A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29286942-3A3B-4FD2-A3F0-15C8125A59A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24D00C1C-6EDC-45C3-BA79-9AF723FB1DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24D00C1C-6EDC-45C3-BA79-9AF723FB1DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D00C1C-6EDC-45C3-BA79-9AF723FB1DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU

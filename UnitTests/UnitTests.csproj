@@ -15,18 +15,21 @@
   <PropertyGroup>
      <NoWarn>CS0618</NoWarn>
    </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-    <PackageReference Include="nunit" Version="4.3.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <Compile Remove="Tests\Dal.CoreTests.cs" />
+    <Compile Remove="Tests\Dal.NetTests.cs" />
+    <Compile Remove="Tests\Dal.StandardTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Core\DAL.Core.csproj" />
-    <ProjectReference Include="..\DAL.Framework\DAL.Framework.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="nunit" Version="4.6.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DAL.Net\DAL.Net.csproj" />
-    <ProjectReference Include="..\DAL.Standard\DAL.Standard.csproj" />
   </ItemGroup>
 
 </Project>

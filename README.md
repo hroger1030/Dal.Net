@@ -14,6 +14,16 @@ I created a .net framework, .net core, and .net standard build of the assembly s
 you should have the correct native version available regardless of what you are working
 on. Please drop me a line if you have any questions. 
 
+## Legacy support
+
+This project was created a long time ago, and has been used with a number of differing Microsoft frameworks. 
+The current version is targeted for modern .NET frameworks, but I have kept  the .NET Framework, .net Core, 
+and .NET Standard versions available for legacy support. They are all built from basically the same source code, 
+but have different build targets. They can be found in the root of the repository, but they aren't in the solution
+and they aren't actively maintained. 
+
+If you need to use one of those legacy versions, they should work just fine, but you will need to build them yourself.
+
 ## Sample Code
 
 The following code shows two basic use cases for the DAL. In the first, we will use a delegate function to 

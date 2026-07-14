@@ -16,12 +16,12 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using DAL.Framework;
+using DAL.Net;
+using Microsoft.Data.SqlClient;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace UnitTests
@@ -76,7 +76,7 @@ namespace UnitTests
         {
             string[] restrictions;
 
-            // the GetSchema can take varing numbers of parameters depending on the schema type that is being retrieved. Oh, Microsoft...
+            // the GetSchema can take varying numbers of parameters depending on the schema type that is being retrieved. Oh, Microsoft...
             switch (collection)
             {
                 case eCollectionType.Databases:
@@ -107,17 +107,17 @@ namespace UnitTests
                 switch (collection)
                 {
                     case eCollectionType.Databases:
-                        if (dr["database_name"].ToString().ToLower() == Constants.DB_NAME.ToLower())
+                        if (dr["database_name"].ToString().Equals(Constants.DB_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
                     case eCollectionType.Tables:
-                        if (dr["TABLE_NAME"].ToString().ToLower() == Constants.TABLE_NAME.ToLower())
+                        if (dr["TABLE_NAME"].ToString().Equals(Constants.TABLE_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
                     case eCollectionType.Procedures:
-                        if (dr["SPECIFIC_NAME"].ToString().ToLower() == Constants.PROCEDURE_NAME.ToLower())
+                        if (dr["SPECIFIC_NAME"].ToString().Equals(Constants.PROCEDURE_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
@@ -139,7 +139,7 @@ namespace UnitTests
         {
             string[] restrictions;
 
-            // the GetSchema can take varing numbers of parameters depending on the schema type that is being retrieved. Oh, Microsoft...
+            // the GetSchema can take varying numbers of parameters depending on the schema type that is being retrieved. Oh, Microsoft...
             switch (collection)
             {
                 case eCollectionType.Databases:
@@ -171,17 +171,17 @@ namespace UnitTests
                 switch (collection)
                 {
                     case eCollectionType.Databases:
-                        if (dr["database_name"].ToString().ToLower() == Constants.DB_NAME.ToLower())
+                        if (dr["database_name"].ToString().Equals(Constants.DB_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
                     case eCollectionType.Tables:
-                        if (dr["TABLE_NAME"].ToString().ToLower() == Constants.TABLE_NAME.ToLower())
+                        if (dr["TABLE_NAME"].ToString().Equals(Constants.TABLE_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
                     case eCollectionType.Procedures:
-                        if (dr["SPECIFIC_NAME"].ToString().ToLower() == Constants.PROCEDURE_NAME.ToLower())
+                        if (dr["SPECIFIC_NAME"].ToString().Equals(Constants.PROCEDURE_NAME, StringComparison.CurrentCultureIgnoreCase))
                             exists = true;
                         break;
 
@@ -195,7 +195,7 @@ namespace UnitTests
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // test datatable select
+        // test data table select
 
         [Test]
         [Category("InlineSql")]

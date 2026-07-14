@@ -60,7 +60,7 @@ namespace DAL.Net
                 {
                     string buffer = item.ToString();
 
-                    if (!string.IsNullOrWhiteSpace(quoteEscapeCharacter))
+                    if (!string.IsNullOrWhiteSpace(quoteEscapeCharacter) && !string.IsNullOrWhiteSpace(quoteCharacter))
                         buffer = buffer.Replace(quoteCharacter, quoteEscapeCharacter);
 
                     if (!string.IsNullOrWhiteSpace(quoteCharacter))
@@ -148,7 +148,7 @@ namespace DAL.Net
                                     sb.AppendLine();
                                 }
 
-                                valueList.Add($"@{parameterList[i].ParameterName} = @StructuredParam{i}");
+                                valueList.Add($"{parameterList[i].ParameterName} = @StructuredParam{i}");
                             }
                             else
                             {
@@ -226,9 +226,13 @@ namespace DAL.Net
                                 fieldValue = reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<double>(ordinal);
                                 break;
 
+                            /*
+                            commenting out, System.Single is correct match to a float.
+
                             case "System.Float":
                                 fieldValue = reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<float>(ordinal);
                                 break;
+                            */
 
                             case "System.Boolean":
                                 fieldValue = reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<bool>(ordinal);
@@ -319,7 +323,7 @@ namespace DAL.Net
                                 {
                                     // Read as the *actual* underlying integer type of the enum
                                     Type underlying = Enum.GetUnderlyingType(propertyType);
-                                    object raw = reader.GetFieldValue<object>(ordinal);
+                                    object raw = reader.IsDBNull(ordinal) ? null :reader.GetFieldValue<object>(ordinal);
 
                                     // Convert.ChangeType can handle int16/int32/int64, etc.
                                     object converted = Convert.ChangeType(raw, underlying);
@@ -421,7 +425,7 @@ namespace DAL.Net
                 var dr = dt.NewRow();
 
                 foreach (var property in objectProperties)
-                    dr[property.Name] = genericType.GetProperty(property.Name).GetValue(item, null);
+                    dr[property.Name] = genericType.GetProperty(property.Name).GetValue(item, null) ?? DBNull.Value;
 
                 dt.Rows.Add(dr);
             }

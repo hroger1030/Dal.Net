@@ -11,14 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Core\DAL.Core.csproj" />
-    <ProjectReference Include="..\DAL.Framework\DAL.Framework.csproj" />
     <ProjectReference Include="..\DAL.Net\DAL.Net.csproj" />
-    <ProjectReference Include="..\DAL.Standard\DAL.Standard.csproj" />
   </ItemGroup>
 
 </Project>

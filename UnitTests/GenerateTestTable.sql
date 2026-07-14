@@ -21,29 +21,29 @@ This scrip will drop and recreate a test table used to validate all the DAL meth
 
 A few helper Commands
 
-drop table [dbo].[testtable]
+drop table [dbo].[TestTable]
 drop procedure [dbo].[SelectDataById]
-truncate table testtable
+truncate table TestTable
 
-select * from testtable
+select * from TestTable
 exec [dbo].[SelectDataById] '1'
 */
 
 -- create db if it doesnt exist
-IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'toolsDb')
-CREATE DATABASE [toolsDb]
+IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'TestDB')
+CREATE DATABASE [TestDB]
 GO
 
 -- point at correct db
-USE [ToolsDB]
+USE [TestDB]
 GO
 
 -- drop and re-create the table
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TestTable]') AND type in (N'U'))
-drop table [dbo].[testtable]
+drop table [dbo].[TestTable]
 
 CREATE TABLE [dbo].[TestTable](
-	[Id] [int] NOT NULL,
+	[id] [int] NOT NULL,
 	[bigintTest] [bigint] NOT NULL,
 	[bigintTestNull] [bigint] NULL,
 	[binaryTest] [binary](1) NOT NULL,
@@ -68,12 +68,12 @@ CREATE TABLE [dbo].[TestTable](
 	[imageTestNull] [image] NULL,
 	[intTest] [int] NOT NULL,
 	[intTestNull] [int] NULL,
-	--[geographyTest] [geography] NOT NULL,
-	--[geographyTestNull] [geography] NULL,
-	--[geometryTest] [geometry] NOT NULL,
-	---[geometryTestNull] [geometry] NULL,
-	--[heiarchyIdTest] [hierarchyid] NOT NULL,
-	--[heiarchyIdTestNull] [hierarchyid] NULL,
+	[geographyTest] [geography] NOT NULL,
+	[geographyTestNull] [geography] NULL,
+	[geometryTest] [geometry] NOT NULL,
+	[geometryTestNull] [geometry] NULL,
+	[hierarchyIdTest] [hierarchyid] NOT NULL,     
+	[hierarchyIdTestNull] [hierarchyid] NULL,
 	[moneyTest] [money] NOT NULL,
 	[moneyTestNull] [money] NULL,
 	[ncharTest] [nchar](2) NOT NULL,
@@ -102,8 +102,8 @@ CREATE TABLE [dbo].[TestTable](
 	[timeTestNull] [time](7) NULL,
 	[tinyintTest] [tinyint] NOT NULL,
 	[tinyintTestNull] [tinyint] NULL,
-	--[uniqueidentifierTest] [uniqueidentifier] NOT NULL,
-	--[uniqueidentifierTestNull] [uniqueidentifier] NULL,
+	[uniqueidentifierTest] [uniqueidentifier] NOT NULL,
+	[uniqueidentifierTestNull] [uniqueidentifier] NULL,
 	[varbinaryTest] [varbinary](1) NOT NULL,
 	[varbinaryTestNull] [varbinary](1) NULL,
 	[varbinaryMAXTest] [varbinary](max) NOT NULL,
@@ -124,7 +124,8 @@ GO
 
 --------------------------------------------------------------------------------------------------------------------------------
 
--- add default values. some values are commented out because we cannot support them in code yet.
+-- add default values.
+
 ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_bigintTest]  DEFAULT ((9223372036854775807)) FOR [bigintTest]
 GO
 
@@ -161,13 +162,13 @@ GO
 ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_intTest]  DEFAULT ((2147483647)) FOR [intTest]
 GO
 
---ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_geographyTest]  DEFAULT ([GEOGRAPHY]::Point((47.6062),(122.3321),(4326))) FOR [geographyTest]
---GO
+ALTER TABLE [dbo].[TestTable] ADD CONSTRAINT [DF_TestTable_geographyTest] DEFAULT (geography::Point(47.6062, -122.3321, 4326)) FOR [geographyTest]
+GO
 
---ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_geometryTest]  DEFAULT ([geometry]::STPointFromText('POINT (100 100)',(0))) FOR [geometryTest]
---GO
+ALTER TABLE [dbo].[TestTable] ADD CONSTRAINT [DF_TestTable_geometryTest] DEFAULT (geometry::STPointFromText('POINT (100 100)', 0)) FOR [geometryTest]
+GO
 
---ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_heiarchyTest]  DEFAULT ('/1/') FOR [heiarchyIdTest]
+ALTER TABLE [dbo].[TestTable] ADD CONSTRAINT [DF_TestTable_hierarchyIdTest] DEFAULT (hierarchyid::Parse('/1/')) FOR [hierarchyIdTest]
 GO
 
 ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_moneyTest]  DEFAULT ((922337203685477.5807)) FOR [moneyTest]
@@ -212,8 +213,8 @@ GO
 ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_tinyintTest]  DEFAULT ((255)) FOR [tinyintTest]
 GO
 
---ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_uniqueidentifierTest]  DEFAULT (newid()) FOR [uniqueidentifierTest]
---GO
+ALTER TABLE [dbo].[TestTable] ADD CONSTRAINT [DF_TestTable_uniqueidentifierTest] DEFAULT (NEWID()) FOR [uniqueidentifierTest]
+GO
 
 ALTER TABLE [dbo].[TestTable] ADD  CONSTRAINT [DF_TestTable_varbinaryTest]  DEFAULT (0xFF) FOR [varbinaryTest]
 GO
@@ -233,12 +234,12 @@ GO
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- put the default test data in the table
---truncate table testtable
+--truncate table TestTable
 --go
 
---insert [testtable] ([Id]) values (1)
---insert [testtable] ([Id]) values (2)
---insert [testtable] ([Id]) values (3)
+--insert [TestTable] ([id]) values (1)
+--insert [TestTable] ([id]) values (2)
+--insert [TestTable] ([id]) values (3)
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -260,8 +261,8 @@ AS
 
 SELECT		* 
 FROM		TestTable
-WHERE		Id = @Id
-ORDER BY	ID
+WHERE		id = @Id
+ORDER BY	id
 GO
 
 

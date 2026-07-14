@@ -1,4 +1,9 @@
-﻿--Table & Columns
+﻿------------------------------------------------------------------------------------------------------------------------
+-- SQL Script to view all objects in a database including tables, columns, stored procedures, functions and constraints.
+-- Included here for testing purposes. This script is not used in the application.
+------------------------------------------------------------------------------------------------------------------------
+
+--Table & Columns
 SELECT	sys.Objects.[Name]				AS [TableName],
 		sys.columns.[Name]				AS [ColumnName],
 		sys.types.[name]				AS [DataType],
