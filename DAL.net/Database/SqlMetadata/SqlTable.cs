@@ -61,7 +61,7 @@ namespace DAL.Net.SqlMetadata
         }
         public string[] ColumnNames
         {
-            get { return PkList.Select(c => c.Name!).ToArray(); }
+            get { return Columns.Values.Select(c => c.Name).ToArray(); }
         }
         public string FullName
         {

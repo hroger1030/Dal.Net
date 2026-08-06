@@ -51,8 +51,7 @@ namespace DAL.Net.SqlMetadata
                 if (DataType == "sql_variant")
                     return SqlDbType.Variant;
 
-                SqlDbType result;
-                if (Enum.TryParse(DataType!, true, out result))
+                if (Enum.TryParse(DataType, true, out SqlDbType result))
                     return result;
 
                 throw new Exception($"Unable to map data type '{DataType}' to a SqlDbType value.");
@@ -85,7 +84,7 @@ namespace DAL.Net.SqlMetadata
 
         protected eSqlBaseType MapBaseType()
         {
-            SqlDbType sqlType = (SqlDbType)Enum.Parse(typeof(SqlDbType), DataType!, true);
+            var sqlType = Enum.Parse<SqlDbType>(DataType, true);
 
             return sqlType switch
             {

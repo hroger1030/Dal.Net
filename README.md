@@ -1,32 +1,85 @@
 # Database
-This is a simple MS-SQL db interface object that I have been using for a number of years 
+
+This is a simple MS-SQL db interface object that I have been using for a number of years
 that I thought might be worth sharing with people. It is a wrapper around a number
 of ADO calls tied into an ORM object mapper that can automatically read record sets into
 POCO objects with corresponding fields. It also has the ability to load SQL meta data into
 objects and create in memory representations of DB schemas.
 
 I created this years ago because I saw things like Microsoft's Entity Framework that where
-complex, bloated, and inefficient. The way to build a better ORM is not by trying to 
-make something complex, but something lightweight and flexible. This is the result of 
+complex, bloated, and inefficient. The way to build a better ORM is not by trying to
+make something complex, but something lightweight and flexible. This is the result of
 those efforts.
 
 I created a .net framework, .net core, and .net standard build of the assembly so
 you should have the correct native version available regardless of what you are working
-on. Please drop me a line if you have any questions. 
+on. Please drop me a line if you have any questions.
+
+## Table of contents
+
+- [Legacy support](#legacy-support)
+- [Project layout](#project-layout)
+- [Tests](#tests)
+- [Sample code](#sample-code)
+  - [Initialize the object](#initialize-the-object)
+  - [Setup simple db call](#setup-simple-db-call)
+  - [Setup ORM mapper call](#setup-orm-mapper-call)
+  - [Passing in a list of values via a data table parameter](#passing-in-a-list-of-values-via-a-data-table-parameter)
+  - [Running multiple queries in a single call](#running-multiple-queries-in-a-single-call)
+- [License](#license)
 
 ## Legacy support
 
-This project was created a long time ago, and has been used with a number of differing Microsoft frameworks. 
-The current version is targeted for modern .NET frameworks, but I have kept  the .NET Framework, .net Core, 
-and .NET Standard versions available for legacy support. They are all built from basically the same source code, 
+This project was created a long time ago, and has been used with a number of differing Microsoft frameworks.
+The current version is targeted for modern .NET frameworks, but I have kept  the .NET Framework, .net Core,
+and .NET Standard versions available for legacy support. They are all built from basically the same source code,
 but have different build targets. They can be found in the root of the repository, but they aren't in the solution
-and they aren't actively maintained. 
+and they aren't actively maintained.
 
 If you need to use one of those legacy versions, they should work just fine, but you will need to build them yourself.
 
+## Project layout
+
+```
+Dal.Net/
+├── DAL.net/                    # Current, actively maintained build (targets modern .NET)
+│   ├── GlobalSuppressions.cs
+│   └── Database/
+│       ├── Database.cs         # Core DB wrapper / ORM mapper
+│       ├── DatabaseFake.cs     # In-memory fake for unit testing consumers
+│       ├── DatabaseHelpers.cs
+│       ├── IDatabase.cs
+│       ├── eCollectionType.cs
+│       └── SqlMetadata/        # Schema introspection (tables, columns, constraints, scripts)
+├── DAL.Core/                   # Legacy .NET Core build (not in solution, unmaintained)
+├── DAL.Framework/               # Legacy .NET Framework build (not in solution, unmaintained)
+├── DAL.Standard/                # Legacy .NET Standard build (not in solution, unmaintained)
+├── UnitTests/                   # NUnit unit test suite for DAL.net (see Tests below)
+│   └── Tests/
+│       ├── DatabaseHelpersTests.cs
+│       ├── DatabaseTests.cs
+│       ├── DatabaseFakeTests.cs
+│       └── SqlMetadata/
+├── Workbench/                   # Scratch console project for manual testing/experiments
+├── DAL.sln                      # Solution file (references DAL.net, UnitTests, Workbench)
+├── ViewObjectData.sql
+└── LICENSE.txt
+```
+
+## Tests
+
+`UnitTests` currently contains only pure unit tests for `DAL.net` — none of them open a database connection, so `dotnet test` runs clean with no SQL Server instance required. Coverage includes:
+
+- `DatabaseHelpersTests` — the static helpers in `DatabaseHelpers.cs` (parameter/debug-string builders, table-valued-parameter converters).
+- `DatabaseTests` — `Database`'s constructor and the argument validation every `Execute*`/`Execute*Async` method performs before it would open a connection.
+- `DatabaseFakeTests` — the in-memory `DatabaseFake` used to unit test code that depends on `IDatabase`.
+- `SqlMetadata/*Tests` — `SqlColumn`, `SqlConstraint`, `SqlTable`, and `SqlDatabase` (property mapping, `Equals`/`GetHashCode`, and the protected SQL-generating helpers, exercised via small test-only subclasses).
+
+Actual connection/query execution against a live database, `ParseDataReaderResult`'s reader-driven type coercion, and `SqlDatabase.LoadDatabaseMetadata` aren't covered here since they require a real SQL Server instance. `Constants.cs`, `DbTestTable.cs`, and `GenerateTestTable.sql` are left in the project as scaffolding for that kind of integration test if one gets added back later, but nothing in the current test project uses `Constants.cs` or the generated table.
+
 ## Sample Code
 
-The following code shows two basic use cases for the DAL. In the first, we will use a delegate function to 
+The following code shows two basic use cases for the DAL. In the first, we will use a delegate function to
 read through a dataset manually, and map the results of a SQL stored procedure call into a c# collection.
 
 The use case is, we have a SQL table that contains a list of employees and their jobs at a company. We
@@ -225,3 +278,6 @@ public static async Task<User> UserProcessor(SqlDataReader reader)
 Any number of result sets can be processed in this way, allowing you to pull back sets of complex data 
 structures with a single call to the database.
 
+## License
+
+This project is licensed under the [MIT License](LICENSE.txt).

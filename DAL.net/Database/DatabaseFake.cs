@@ -268,8 +268,7 @@ namespace DAL.Net
         /// </summary>
         public static string WriteArguments(string sqlQuery, IList<SqlParameter> parameters)
         {
-            if (string.IsNullOrWhiteSpace(sqlQuery))
-                throw new ArgumentNullException(nameof(sqlQuery));
+            ArgumentException.ThrowIfNullOrWhiteSpace(sqlQuery);
 
             var sb = new StringBuilder();
 

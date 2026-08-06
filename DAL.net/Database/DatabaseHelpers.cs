@@ -39,8 +39,7 @@ namespace DAL.Net
         /// </summary>
         public static string GenericListToStringList<T>(IEnumerable<T> list, string quoteCharacter = null, string quoteEscapeCharacter = null)
         {
-            if (list == null)
-                throw new ArgumentNullException(nameof(list));
+            ArgumentNullException.ThrowIfNull(list);
 
             var sb = new StringBuilder();
             bool firstFlag = true;
@@ -78,8 +77,7 @@ namespace DAL.Net
         /// </summary>
         public static string GenerateSqlDebugString(string sqlQuery, IList<SqlParameter> parameterList, bool isStoredProc)
         {
-            if (string.IsNullOrWhiteSpace(sqlQuery))
-                throw new ArgumentNullException(nameof(sqlQuery));
+            ArgumentException.ThrowIfNullOrWhiteSpace(sqlQuery);
 
             if (parameterList == null || parameterList.Count == 0)
                 return sqlQuery;
@@ -176,8 +174,7 @@ namespace DAL.Net
         /// <returns></returns>
         public static List<T> ParseDataReaderResult<T>(SqlDataReader reader, bool throwUnmappedFieldsError) where T : class, new()
         {
-            if (reader == null)
-                throw new ArgumentNullException(nameof(reader));
+            ArgumentNullException.ThrowIfNull(reader);
 
             var outputType = typeof(T);
             var results = new List<T>();
@@ -363,8 +360,7 @@ namespace DAL.Net
         /// <param name="cmd">command object for query</param>
         public static void ReadInParameters(IList<SqlParameter> parameters, SqlCommand cmd)
         {
-            if (cmd == null)
-                throw new ArgumentNullException(nameof(cmd));
+            ArgumentNullException.ThrowIfNull(cmd);
 
             if (parameters == null)
                 return;
@@ -380,8 +376,7 @@ namespace DAL.Net
         /// <param name="cmd">command object to pull output from</param>
         public static void PersistOutputParameters(IList<SqlParameter> parameters, SqlCommand cmd)
         {
-            if (cmd == null)
-                throw new ArgumentNullException(nameof(cmd));
+            ArgumentNullException.ThrowIfNull(cmd);
 
             // This covers the case where no parameters were passed in, but we have output parameters being returned.
             if (parameters == null)
@@ -403,14 +398,9 @@ namespace DAL.Net
         /// </summary>
         public static SqlParameter ConvertPocoCollectionToParameter<T>(string parameterName, string sqlTypeName, IEnumerable<T> input) where T : class, new()
         {
-            if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException(nameof(parameterName));
-
-            if (string.IsNullOrWhiteSpace(sqlTypeName))
-                throw new ArgumentNullException(nameof(sqlTypeName));
-
-            if (input == null)
-                throw new ArgumentException("Collection cannot be null", nameof(input));
+            ArgumentException.ThrowIfNullOrWhiteSpace(parameterName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(sqlTypeName);
+            ArgumentNullException.ThrowIfNull(input);
 
             var dt = new DataTable();
             var genericType = typeof(T);
@@ -450,17 +440,10 @@ namespace DAL.Net
         /// </summary>
         public static SqlParameter ConvertObjectCollectionToParameter<T>(string parameterName, string sqlTypeName, IEnumerable<T> input, string columnName)
         {
-            if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException(nameof(parameterName));
-
-            if (string.IsNullOrWhiteSpace(sqlTypeName))
-                throw new ArgumentNullException(nameof(sqlTypeName));
-
-            if (input == null)
-                throw new ArgumentException("Collection cannot be null", nameof(input));
-
-            if (string.IsNullOrWhiteSpace(columnName))
-                throw new ArgumentNullException(nameof(columnName));
+            ArgumentException.ThrowIfNullOrWhiteSpace(parameterName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(sqlTypeName);
+            ArgumentNullException.ThrowIfNull(input);
+            ArgumentException.ThrowIfNullOrWhiteSpace(columnName);
 
             var dt = new DataTable();
             dt.Columns.Add(columnName);
@@ -507,20 +490,11 @@ namespace DAL.Net
         /// </summary>
         public static SqlParameter ConvertKvpCollectionToParameter<K, V>(string parameterName, string sqlTypeName, IEnumerable<KeyValuePair<K, V>> input, string keyName, string valueName)
         {
-            if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException(nameof(parameterName));
-
-            if (string.IsNullOrWhiteSpace(sqlTypeName))
-                throw new ArgumentNullException(nameof(sqlTypeName));
-
-            if (input == null)
-                throw new ArgumentException("Collection cannot be null", nameof(input));
-
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentNullException(nameof(keyName));
-
-            if (string.IsNullOrWhiteSpace(valueName))
-                throw new ArgumentNullException(nameof(valueName));
+            ArgumentException.ThrowIfNullOrWhiteSpace(parameterName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(sqlTypeName);
+            ArgumentNullException.ThrowIfNull(input);
+            ArgumentException.ThrowIfNullOrWhiteSpace(keyName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(valueName);
 
             var dt = new DataTable();
             dt.Columns.Add(keyName);

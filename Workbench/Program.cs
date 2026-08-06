@@ -1,12 +1,26 @@
-﻿using DAL.Net;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 Roger Hill
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
+(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
+publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do 
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 using DAL.Net.SqlMetadata;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Data.SqlClient;
 using System.Diagnostics;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace Workbench
 {
@@ -17,17 +31,16 @@ namespace Workbench
         /// </summary>
         private const string SQL_CONN = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Pooling=true;";
 
-        public static void Main()
+        public static async Task Main()
         {
             AppDomain.CurrentDomain.UnhandledException += Application_Error;
             var sw = Stopwatch.StartNew();
-
 
             //// run integration tests against the testDb
             //IDatabase test = new Database(SQL_CONN, true, true);
 
             var sql_database = new SqlDatabase();
-            sql_database.LoadDatabaseMetadata("WizardWar", SQL_CONN);
+            await sql_database.LoadDatabaseMetadata("WizardWar", SQL_CONN);
 
             //// build parameter string because we are lazy...
             //var nameslist = new string[] { "Mal", "Jayne", "Wash", "River", "Book", "Zoe", "Kaylee", "Simon" };
