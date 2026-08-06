@@ -46,7 +46,7 @@ Dal.Net/
 │   ├── GlobalSuppressions.cs
 │   └── Database/
 │       ├── Database.cs         # Core DB wrapper / ORM mapper
-│       ├── DatabaseFake.cs     # In-memory fake for unit testing consumers
+│       ├── DatabaseFake.cs     # No-op IDatabase stub for call-shape verification (see Tests below)
 │       ├── DatabaseHelpers.cs
 │       ├── IDatabase.cs
 │       ├── eCollectionType.cs
@@ -72,7 +72,7 @@ Dal.Net/
 
 - `DatabaseHelpersTests` — the static helpers in `DatabaseHelpers.cs` (parameter/debug-string builders, table-valued-parameter converters).
 - `DatabaseTests` — `Database`'s constructor and the argument validation every `Execute*`/`Execute*Async` method performs before it would open a connection.
-- `DatabaseFakeTests` — the in-memory `DatabaseFake` used to unit test code that depends on `IDatabase`.
+- `DatabaseFakeTests` — the in-memory `DatabaseFake` used to unit test code that depends on `IDatabase`. Note that `DatabaseFake` is an interaction-verifying stub, not a configurable mock: every method returns a hardcoded empty/zero/default value and logs the call to `CommandHistory`, so it's useful for asserting "was this method called with this SQL/these parameters" but not for testing logic that branches on returned data. The processor-delegate overloads (`ExecuteQuery<T>(sql, params, processor)`) never actually invoke `processor` either — they just log it and return `default`.
 - `SqlMetadata/*Tests` — `SqlColumn`, `SqlConstraint`, `SqlTable`, and `SqlDatabase` (property mapping, `Equals`/`GetHashCode`, and the protected SQL-generating helpers, exercised via small test-only subclasses).
 
 Actual connection/query execution against a live database, `ParseDataReaderResult`'s reader-driven type coercion, and `SqlDatabase.LoadDatabaseMetadata` aren't covered here since they require a real SQL Server instance. `Constants.cs`, `DbTestTable.cs`, and `GenerateTestTable.sql` are left in the project as scaffolding for that kind of integration test if one gets added back later, but nothing in the current test project uses `Constants.cs` or the generated table.
