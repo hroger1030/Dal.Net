@@ -3,30 +3,28 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
     <Copyright>Roger Hill, 2007</Copyright>
     <PackageProjectUrl>https://github.com/hroger1030/Database</PackageProjectUrl>
-    <Authors>Roger Hill</Authors>
+    <Authors>Roger_Hill</Authors>
     <Company>GlobalConquestGames</Company>
     <Description>DAL.Net is a SQL db interface and data mapper, designed to provide a lightweight way to manager sql data.</Description>
     <Version>3.0.0.0</Version>
     <RepositoryUrl>https://github.com/hroger1030/Database</RepositoryUrl>
-    <PackageIcon>gc.png</PackageIcon>
+    <PackageIcon>Icon.png</PackageIcon>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageTags>database;DAL</PackageTags>
     <TargetFramework>net10.0</TargetFramework>
     <Title>DAL.Net</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>Update to .net 10</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <PackAsTool>False</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\gc.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -40,6 +38,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
     <PackageReference Include="Microsoft.SqlServer.Types" Version="170.1000.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
